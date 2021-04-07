@@ -1,2 +1,6 @@
-# crud-laravel8
-CRUD básico em Laravel 8
+
+Execute:
+alias sail='bash vendor/bin/sail'
+
+depois 
+sail
