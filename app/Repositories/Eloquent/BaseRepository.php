@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Repository\Eloquent;
+namespace App\Repositories\Eloquent;
 
-use App\Repository\IEloquentRepository;
+use App\Repositories\IEloquentRepository;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 
 class BaseRepository implements IEloquentRepository
 {
@@ -57,5 +58,20 @@ class BaseRepository implements IEloquentRepository
     public function find($id): ?Model
     {
         return $this->model->find($id);
+    }
+
+    /**
+    * @param $query
+    * @return Collection
+    */
+    public function search($query): ?Collection
+    {
+        $queryBuilder = $this->model->query();
+
+        foreach($this->model->getFillable() as $label) {
+            $queryBuilder->orWhere($label, 'LIKE' , "%$query%");
+        }
+
+        return $queryBuilder->get();
     }
 }

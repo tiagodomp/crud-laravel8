@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository\Eloquent;
+namespace App\Repositories\Eloquent;
 
 use App\Models\User;
-use App\Repository\IUserRepository;
+use App\Repositories\IUserRepository;
 use Illuminate\Support\Collection;
 
 class UserRepository extends BaseRepository implements IUserRepository

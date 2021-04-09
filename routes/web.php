@@ -16,9 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
+
+Route::get('users/search', [UserController::class, 'search'])->name('users.search');
 
 Route::resource('users', UserController::class)
         ->missing(function () {
-            return redirect('photos.index');
+            return redirect('users.index');
         });

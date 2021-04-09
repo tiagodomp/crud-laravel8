@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repository\IUserRepository;
+use App\Repositories\IUserRepository;
 
 class UserController extends Controller
 {
@@ -22,9 +22,21 @@ class UserController extends Controller
      */
     public function index()
     {
-        $total = $this->user->count();
+        $users = $this->user->all();
 
-        return view('')
+        return view('users.index', compact('users'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $users = $this->user->search($request->search);
+
+        return view('users.index', compact('users'));
     }
 
     /**

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 
 interface IEloquentRepository
 {
@@ -33,4 +34,10 @@ interface IEloquentRepository
     * @return Model
     */
    public function find(int $id): ?Model;
+
+   /**
+    * @param $query
+    * @return Collection
+    */
+    public function search($query): ?Collection;
 }
