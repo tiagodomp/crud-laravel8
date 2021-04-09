@@ -18,9 +18,14 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
 Route::get('users/search', [UserController::class, 'search'])->name('users.search');
 
 Route::resource('users', UserController::class)
+        ->only(['index', 'store', 'update', 'destroy'])
         ->missing(function () {
             return redirect('users.index');
         });

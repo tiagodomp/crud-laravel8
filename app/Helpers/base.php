@@ -1,7 +1,5 @@
 <?php
 
-
-
 if(!function_exists('isCpf')) {
 
     /**
@@ -84,6 +82,50 @@ if(!function_exists('randomCpf')) {
 
     function modRandomCpf($dividendo, $divisor) {
         return round($dividendo - (floor($dividendo / $divisor) * $divisor));
+    }
+}
+
+if(!function_exists('mask')) {
+
+    /**
+     * Add masks to a string
+     *
+     * @author leonirlopes <https://gist.github.com/leonirlopes/5a4a1f796c776d4a695b2d8ca78ab108>
+     * @param string $val Val example: '010203'
+     * @param string $mask Mask example: ##/##/##
+     * @return string example: '01/02/03'
+     */
+    function mask(string $val, string $mask): string
+    {
+        $maskared = '';
+        $k = 0;
+        for ($i = 0; $i <= strlen($mask) - 1; ++$i) {
+            if ($mask[$i] == '#') {
+                if (isset($val[$k])) {
+                    $maskared .= $val[$k++];
+                }
+            } else {
+                if (isset($mask[$i])) {
+                    $maskared .= $mask[$i];
+                }
+            }
+        }
+
+        return $maskared;
+    }
+}
+
+if(!function_exists('removeMask')) {
+
+    /**
+     * Remove masks to a string
+     *
+     * @param string $val Val example: '01/02/03'
+     * @return string example: '010203'
+     */
+    function removeMask(string $val): string
+    {
+       return preg_replace( '/[^0-9]/is', '', $val );
     }
 }
 

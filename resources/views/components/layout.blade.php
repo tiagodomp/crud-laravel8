@@ -17,11 +17,13 @@
     <title>CRUD - @yield('title')</title>
   </head>
   <body>
-
     <x-menu/>
 
     <section class="container">
         <div class="row w-100 pt-5 mx-0">
+            <div class="d-flex justify-content-end">
+                <x-alerts/>
+            </div>
             <div class="col-12 justify-content-center px-0">
                 {{$slot}}
             </div>

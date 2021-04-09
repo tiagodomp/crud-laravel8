@@ -16,17 +16,17 @@ interface IEloquentRepository
 
    /**
     * @param array $attr
-    * @param array $options
+    * @param int $id
     * @return bool
     */
-    public function update(array $attr, array $options): bool;
+    public function update(array $attr, int $id): bool;
 
 
    /**
     * @param array $id
-    * @return bool
+    * @return bool|null
     */
-   public function delete(int $id): bool;
+   public function delete(int $id): ?bool;
 
 
    /**

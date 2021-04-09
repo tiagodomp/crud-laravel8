@@ -1,4 +1,5 @@
 <x-layout>
+    @section('title', 'Users')
 
     @if(empty($users->toArray()))
         <div class="row">
@@ -8,14 +9,14 @@
                         <h3 class="text-light">CRUD Users</h2>
                     </div>
                     <div class="card-body">
-                    <h5 class="card-title">No registration found</h5>
-                    <p class="card-text">Create your first user by clicking the button below</p>
-                    <button type="button" data-action="create" data-model="users"
-                        class="btn btn-outline-success" data-bs-toggle="modal"
-                        data-bs-target="#crudModal">
-                        <i class="bi-person-plus-fill"></i>
-                        Add User
-                    </button>
+                        <h5 class="card-title">No registration found</h5>
+                        <p class="card-text">Create your first user by clicking the button below</p>
+                        <button type="button" data-action="create" data-model="users"
+                            class="btn btn-outline-success" data-bs-toggle="modal"
+                            data-bs-target="#crudModal">
+                            <i class="bi-person-plus-fill"></i>
+                            Add User
+                        </button>
                     </div>
                 </div>
                 </div>
@@ -40,12 +41,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($users as $count => $user)
+                @foreach ($users as $user)
                     <tr>
-                        <th scope="row">{{ $count + 1 }}</th>
+                        <th scope="row">{{ $loop->iteration }}</th>
                         <td colspan="2">{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->cpf }}</td>
+                        <td>{{ mask($user->cpf, '###.###.###-##') }}</td>
                         <td>
                             <x-actions model="users" entity="{{$user->toJson()}}"/>
                         </td>

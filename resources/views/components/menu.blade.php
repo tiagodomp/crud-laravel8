@@ -18,10 +18,11 @@
             <a class="nav-link active" aria-current="page" href="{{route('users.index')}}">Users</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="#">Sobre</a>
+            <a class="nav-link" href="{{route('about')}}">About</a>
             </li>
         </ul>
         <form id="formSearch" method="GET" action="{{route('users.search')}}">
+            @csrf
             <div class="input-group">
                 <input id="search" name="search" class="form-control" type="text" placeholder="Search" aria-label="Search">
                 <div class="input-group-append">

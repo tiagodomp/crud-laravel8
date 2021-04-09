@@ -14,28 +14,34 @@ const crudModal = (crudModal) => {
     const url = window.location.hostname;
     var form = crudModal.find('form');
 
-    const eraseValuesForm = () => {
+    //Clear form
+    const clearForm = () => {
         form.find('input').map((key, input)=>{
-            $(input).val('').removeAttr('disabled');
+            if($(input).attr('type') != 'hidden') {
+                $(input).val('').removeAttr('disabled');
+            }
         });
     }
 
     const setValueForm = (entity, disable = false) => {
-        eraseValuesForm();
+        clearForm();
         form.find('input').map((key, input)=>{
             var inp = $(input);
-            if(entity[inp.attr('name')].length > 0) {
+            if(entity[inp.attr('name')] != undefined
+                && entity[inp.attr('name')].length > 0) {
+                //add values in form
                 inp.val(entity[inp.attr('name')]);
-            }
 
-            if(disable) {
-                inp.attr('disabled', true);
+                //disable inputs in form
+                if(disable) {
+                    inp.attr('disabled', true);
+                }
             }
         });
     }
 
     const formCreate = (model) => {
-        eraseValuesForm();
+        clearForm();
         form.attr('method', 'POST');
         form.attr('action', "/"+model);
         form.find('#send').text('Save').attr('class','btn btn-success');
@@ -48,14 +54,16 @@ const crudModal = (crudModal) => {
     }
 
     const formEdit = (model, entity) => {
-        form.attr('method', 'PUT');
+        form.attr('method', 'POST');
         form.attr('action', "/"+model+"/"+entity.id);
+        form.append('<input type="hidden" name="_method" value="PUT"/>');
         form.find('#send').text('Update').attr('class','btn btn-primary');
     }
 
     const formDestroy = (model, entity) => {
-        form.attr('method', 'DELETE');
+        form.attr('method', 'POST');
         form.attr('action', "/"+model+"/"+entity.id);
+        form.append('<input type="hidden" name="_method" value="DELETE"/>');
         form.find('#send').text('Delete').attr('class','btn btn-danger');
     }
 

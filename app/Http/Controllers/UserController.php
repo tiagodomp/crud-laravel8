@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\IUserRepository;
+use App\Http\Requests\UserPostRequest;
+use App\Http\Requests\UserPutRequest;
 
 class UserController extends Controller
 {
@@ -34,64 +36,57 @@ class UserController extends Controller
      */
     public function search(Request $request)
     {
+
+        $val = $request->validate([
+            'search' => 'required|string|max:64',
+        ]);
+
         $users = $this->user->search($request->search);
 
         return view('users.index', compact('users'));
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\UserPostRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserPostRequest $request)
     {
-        //
-    }
+        $data = $request->validated();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        $data['cpf'] = removeMask($data['cpf']);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        if($this->user->create($data)) {
+            return redirect('users')
+                    ->with('success', 'User created successfully');
+        }
+
+        return redirect('users')
+                    ->withErrors('Error creating user');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\UserPutRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserPutRequest $request, int $id)
     {
-        //
+        $data = $request->validated();
+
+        $data['cpf'] = removeMask($data['cpf']);
+
+        if($this->user->update($data, $id)) {
+            return redirect('users')
+                    ->with('success', 'User updated successfully');
+        }
+
+        return redirect('users')
+                    ->withErrors('Error updating user');
     }
 
     /**
@@ -100,8 +95,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        //
+        if($this->user->delete($id)) {
+            return redirect('users')
+                    ->with('success', 'User deleted successfully');
+        }
+
+        return redirect('users')
+                    ->withErrors('Error deleting user');
     }
 }

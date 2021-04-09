@@ -34,21 +34,21 @@ class BaseRepository implements IEloquentRepository
 
     /**
     * @param array $attr
-    * @param array $options
+    * @param int $id
     * @return bool
     */
-    public function update(array $attr, array $options): bool
+    public function update(array $attr, int $id): bool
     {
-        return $this->model->update($attr, $options);
+        return $this->model->query()->where('id', $id)->update($attr);
     }
 
     /**
     * @param array $id
-    * @return bool
+    * @return bool|null
     */
-    public function delete(int $id): bool
+    public function delete(int $id): ?bool
     {
-        return $this->model->delete($id);
+        return $this->model->where('id', $id)->delete();
     }
 
     /**
